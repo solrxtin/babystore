@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <input type="submit" value="Record Sales"><br/><br/>
+</form>
+
+<div>
+    <h3>Click YES to record multiple sales of this item</h3>
+    <a href="{% url 'update_multiple_sales' item.id %}"><input type="button" value="YES" /></a>
+</div>
+<br/>
+<a href="{% url 'item' item.id %}">Go Back to the previous page</a>
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,379 @@
+<div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+            <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+
+        </div>
+
+
+        <div id="user-tools">
+
+            Welcome,
+            <strong>admin</strong>.
+
+
+
+            <a href="/">View site</a> /
+
+
+
+
+
+
+            <a href="/admin/password_change/">Change password</a> /
+
+            <a href="/admin/logout/">Log out</a>
+
+        </div>
+
+
+
+    </div>
+    <!-- END Header -->
+
+    <div class="breadcrumbs">
+        <a href="/admin/">Home</a>
+        › <a href="/admin/app/">App</a>
+        › Items
+    </div>
+
+
+
+    <div class="main shifted" id="main">
+
+
+
+        <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+        <nav class="sticky" id="nav-sidebar">
+
+
+
+
+            <div class="app-app module current-app">
+                <table>
+                    <caption>
+                        <a href="/admin/app/" class="section" title="Models in the App application">App</a>
+                    </caption>
+
+                    <tbody>
+                        <tr class="model-batch">
+
+                            <th scope="row"><a href="/admin/app/batch/">Batches</a></th>
+
+
+
+                            <td><a href="/admin/app/batch/add/" class="addlink">Add</a></td>
+
+
+
+                        </tr>
+
+                        <tr class="model-department">
+
+                            <th scope="row"><a href="/admin/app/department/">Departments</a></th>
+
+
+
+                            <td><a href="/admin/app/department/add/" class="addlink">Add</a></td>
+
+
+
+                        </tr>
+
+                        <tr class="model-item current-model">
+
+                            <th scope="row"><a href="/admin/app/item/" aria-current="page">Items</a></th>
+
+
+
+                            <td><a href="/admin/app/item/add/" class="addlink">Add</a></td>
+
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="app-auth module">
+                <table>
+                    <caption>
+                        <a href="/admin/auth/" class="section"
+                            title="Models in the Authentication and Authorization application">Authentication and
+                            Authorization</a>
+                    </caption>
+
+                    <tbody>
+                        <tr class="model-group">
+
+                            <th scope="row"><a href="/admin/auth/group/">Groups</a></th>
+
+
+
+                            <td><a href="/admin/auth/group/add/" class="addlink">Add</a></td>
+
+
+
+                        </tr>
+
+                        <tr class="model-user">
+
+                            <th scope="row"><a href="/admin/auth/user/">Users</a></th>
+
+
+
+                            <td><a href="/admin/auth/user/add/" class="addlink">Add</a></td>
+
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </nav>
+
+
+
+        <div class="content">
+
+
+
+            <!-- Content -->
+            <div id="content" class="">
+
+                <h1>Select item to change</h1>
+
+
+                <div id="content-main">
+
+                    <ul class="object-tools">
+
+
+
+
+
+                        <li>
+
+                            <a href="/admin/app/item/add/" class="addlink">
+                                Add item
+                            </a>
+                        </li>
+
+
+
+
+                    </ul>
+
+
+                    <div class="module" id="changelist">
+                        <div class="changelist-form-container">
+
+
+
+
+
+                            <form id="changelist-form" method="post" novalidate=""><input type="hidden"
+                                    name="csrfmiddlewaretoken"
+                                    value="48M1JfRcPtsflynU9rKUqT7ALcDGn3oKkFzn9CwkUfJB7EFfuDaMVtVcnYlqOxyS">
+
+
+
+
+                                <div class="actions">
+
+
+                                    <label>Action: <select name="action" required="">
+                                            <option value="" selected="">---------</option>
+
+                                            <option value="delete_selected">Delete selected items</option>
+
+                                        </select></label><input type="hidden" name="select_across" value="0"
+                                        class="select-across">
+
+
+                                    <button type="submit" class="button" title="Run the selected action" name="index"
+                                        value="0">Go</button>
+
+
+
+                                    <span class="action-counter" data-actions-icnt="8">0 of 8 selected</span>
+
+
+
+
+                                </div>
+
+
+
+
+                                <div class="results">
+                                    <table id="result_list">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col" class="action-checkbox-column">
+
+                                                    <div class="text"><span><input type="checkbox"
+                                                                id="action-toggle"></span></div>
+                                                    <div class="clear"></div>
+                                                </th>
+                                                <th scope="col" class="sortable column-name">
+
+
+
+                                                    <div class="text"><a href="?o=1">Name</a></div>
+                                                    <div class="clear"></div>
+                                                </th>
+                                                <th scope="col" class="sortable column-department">
+
+
+
+                                                    <div class="text"><a href="?o=2">Department</a></div>
+                                                    <div class="clear"></div>
+                                                </th>
+                                                <th scope="col" class="sortable column-price">
+
+
+
+                                                    <div class="text"><a href="?o=3">Price</a></div>
+                                                    <div class="clear"></div>
+                                                </th>
+                                                <th scope="col" class="sortable column-quantity">
+
+
+
+                                                    <div class="text"><a href="?o=4">Quantity</a></div>
+                                                    <div class="clear"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="18" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/18/change/">Diapers</a>
+                                                </th>
+                                                <td class="field-department nowrap">Health and Safety</td>
+                                                <td class="field-price">600</td>
+                                                <td class="field-quantity">20</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="13" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/13/change/">Belt</a>
+                                                </th>
+                                                <td class="field-department nowrap">Baby Fashion</td>
+                                                <td class="field-price">2000</td>
+                                                <td class="field-quantity">4</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="6" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/6/change/">shoes</a>
+                                                </th>
+                                                <td class="field-department nowrap">Baby Fashion</td>
+                                                <td class="field-price">15000</td>
+                                                <td class="field-quantity">3</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="5" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/5/change/">Cough
+                                                        syrup</a></th>
+                                                <td class="field-department nowrap">Health and Safety</td>
+                                                <td class="field-price">1000</td>
+                                                <td class="field-quantity">5</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="4" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/4/change/">keys</a></th>
+                                                <td class="field-department nowrap">Toys</td>
+                                                <td class="field-price">400</td>
+                                                <td class="field-quantity">15</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="3" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/3/change/">Antiseptic
+                                                        soap</a></th>
+                                                <td class="field-department nowrap">Health and Safety</td>
+                                                <td class="field-price">300</td>
+                                                <td class="field-quantity">50</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="2" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/2/change/">slippers</a>
+                                                </th>
+                                                <td class="field-department nowrap">Baby Fashion</td>
+                                                <td class="field-price">15000</td>
+                                                <td class="field-quantity">3</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="action-checkbox"><input type="checkbox"
+                                                        name="_selected_action" value="1" class="action-select"></td>
+                                                <th class="field-name"><a href="/admin/app/item/1/change/">baby doll</a>
+                                                </th>
+                                                <td class="field-department nowrap">Toys</td>
+                                                <td class="field-price">2500</td>
+                                                <td class="field-quantity">10</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+
+
+                                <p class="paginator">
+
+                                    8 items
+
+
+                                </p>
+
+                            </form>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <br class="clear">
+            </div>
+            <!-- END Content -->
+            <div id="footer"></div>
+        </div>
+    </div>
+</div>

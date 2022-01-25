@@ -1,0 +1,110 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    table {
+        border-collapse: collapse;
+
+    }
+
+    tr {
+        font-size: 14px;
+        font-weight: bold;
+        font-style: normal;
+        display: grid;
+        text-align: left;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        max-width: 100%;
+    }
+
+    td,
+    th {
+        font-size: 16px;
+        line-height: 16px;
+        border-bottom: 1px solid var(--hairline-color);
+        vertical-align: top;
+        padding: 8px;
+    }
+
+    th {
+        font-weight: 700;
+        text-align: left;
+    }
+
+    thead th,
+    tfoot td {
+        color: var(--body-quiet-color);
+        padding: 5px 10px;
+        font-size: 20px;
+        background: var(--body-bg);
+        border: none;
+        border-top: 1px solid var(--hairline-color);
+        border-bottom: 1px solid var(--hairline-color);
+    }
+
+    tfoot td {
+        border-bottom: none;
+        border-top: 1px solid var(--hairline-color);
+    }
+
+    thead th.required {
+        color: var(--body-loud-color);
+    }
+
+    tr.alt {
+        background: var(--darkened-bg);
+    }
+
+    tr:nth-child(odd),
+    .row-form-errors {
+        background: var(--body-bg);
+    }
+
+    tr:nth-child(even),
+    tr:nth-child(even) .errorlist,
+    tr:nth-child(odd)+.row-form-errors,
+    tr:nth-child(odd)+.row-form-errors .errorlist {
+        background: var(--darkened-bg);
+    }
+</style>
+<table id="result_list">
+{% if carts %}
+    <thead>
+        <tr>
+            <th scope="col" class="sortable column-item">
+                <div class="text">Item</div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="sortable column-price">
+                <div class="text">Price</div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="sortable column-quantity">
+                <div class="text">Quantity</div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="sortable column-time_sold sorted descending">
+                <div class="text">Time added</div>
+                <div class="clear"></div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for cart in carts%}
+        <tr>
+            <th class="field-item nowrap" style="font-weight: 650;"><a href="{% url 'update_cart' cart.id %}">{{cart.item|title}}</a></th>
+            <td class="field-price">{{cart.price}}</td>
+            <td class="field-quantity">{{cart.quantity}}</td>
+            <td class="field-time_sold nowrap">{{cart.time_added}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table><br/>
+<p>Total cost: {{cost}}</p>
+<div>
+    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+</div>
+{% else%}
+Cart, empty!
+{% endif %}
+{% endblock content %}

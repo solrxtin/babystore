@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form action="{% url 'add_multiple_sales'%}" method="get">
+    <label>How many sales do you want to record at a go?</label>
+    <input type="number" name="count"><input type="submit" value="Record Sales" />
+</form><br>
+<form action="" method="POST">
+    {% csrf_token%}
+    {{formset.management_form}}
+    {% for form in formset %}
+            <label for="item">Item:</label>
+            <input required type="text" value="{{sale.item.name}}" name="item" id="item_sale" list="topic-list" />
+            <datalist id="topic-list">
+                <select id="item_sale">
+                    {% for item in items %}
+                    <option value="{{item.name}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+            {{form.as_table}}
+    {% endfor%}
+    <h3><input  type="submit" value="Add Sales"/></h3>
+    <h3><a href="{% url 'view_sales' %}">View Sales</a></h3>
+</form>
+</div>
+{% endblock content %}

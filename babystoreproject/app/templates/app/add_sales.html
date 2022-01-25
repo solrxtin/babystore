@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated%} 
+<style>
+    .layout__body{
+        display: block;
+        padding-right: 1fr;
+        width: 90%;
+        max-width: 48rem;
+        min-height: 40rem;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        
+        background-color: var(--color-dark);
+        /*border-radius: 1rem;*/
+        box-shadow: 1px 1px 6px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        overflow: hidden;
+        padding: 10px;
+        font-size: 20px;
+        border-bottom: 1px solid var(--hairline-color);
+        padding: 4px 10px 0 0;
+        padding-left: 0;
+   
+    }
+</style>
+<div>
+    <div class="layout__body">
+        <form class="form" action="" method="post">
+            {% csrf_token %}
+            <div class="form__group">
+                <label for="item">Item:</label>
+                <input required type="text" value="{{sale.item.name}}" name="item" id="item_sale" list="topic-list" />
+                <datalist id="topic-list">
+                    <select id="item_sale">
+                        {% for item in items %}
+                            <option value="{{item.name}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                </datalist>
+            </div>
+            <div class="form__group">
+                <label for="price">Price:</label>
+                {{form.price}}
+            </div>
+        
+            <div class="form__group">
+                <label for="quantity">Quantity sold:</label>
+                {{form.quantity}}
+            </div>
+        
+            <div class="form__action">
+                <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+                <button class="btn btn--main" type="submit">Submit</button>
+            </div>
+        </form>
+        {% if user.is_superuser or user.is_staff%}
+        <div>
+            <h3><a href="{% url 'view_sales' %}">View Sales</a></h3>
+        </div>
+        <div>
+            Click YES to add more than a sale?<br/>
+            <a href="{% url 'add_multiple_sales'%}"><input type="submit" value="YES"/></a>
+        </div>
+        {% endif %}   
+    </div>
+ 
+</div>
+{% else %}
+<p>You are not allowed here! </p>
+{% endif %}
+
+{% endblock content %}

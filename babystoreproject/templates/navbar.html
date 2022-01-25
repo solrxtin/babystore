@@ -1,0 +1,25 @@
+{% load static %}
+<style>
+    .navbar{
+        display: grid;
+        grid-template-columns: 1.5fr 2.5fr 1fr;       
+    }
+</style>
+<div style="background-color: cornsilk;">
+    <div class="navbar">
+        <div><a href="{% url 'home' %}"><img src="{% static 'images/teddy-bear.png' %}" alt="Navbar img"/></a></div>
+        <div style="text-align: left;"><h1>Welcome to our Baby Store</h1></div>
+        <div style="text-align: right;"><a href="{% url 'cart' %}">Cart</a></div>
+    </div>
+    {% if not user.is_authenticated%}
+    <div>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+    {% else %}
+    <div>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+    {% endif %}
+    <hr>
+    
+</div>

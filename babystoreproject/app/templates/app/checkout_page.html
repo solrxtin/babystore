@@ -1,0 +1,19 @@
+
+{% extends 'main.html' %}
+
+{% block content %}
+{% if page %}
+Thanks for your patronage.<br/><br /><br />
+<a href="{% url 'print_receipt' %}">Print receipt</a>
+{% else %}
+<div>
+    <form method="post" action="">
+        {%csrf_token%}
+        <p>Click confirm to execute your orders</p>
+        <input type='submit' value="Confirm" />
+        <a href="{{request.META.HTTP_REFERER}}"><input type="button" value="Go Back" /></a>
+    </form>
+</div>
+
+{% endif %}
+{% endblock content %}

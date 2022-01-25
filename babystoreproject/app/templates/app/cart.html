@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="layout__body">
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+        <div class="form__group">
+            <label for="item">Item:</label>
+            <input required type="text" value="{{sale.item.name}}" name="item" id="item_sale" list="topic-list" />
+            <datalist id="topic-list">
+                <select id="item_sale">
+                    {% for item in items %}
+                    <option value="{{item.name}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        <div class="form__group">
+            <label for="price">Price:</label>
+            {{form.price}}
+        </div>
+
+        <div class="form__group">
+            <label for="quantity">Quantity:</label>
+            {{form.quantity}}
+        </div>
+        <div class="form__action">
+            <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+            <button class="btn btn--main" type="submit">Add to Cart</button>
+        </div>
+    </form>
+</div>
+<br/><br /><br />
+<a href="{% url 'view_cart' %}">View Cart</a><br />
+
+{% endblock content %}

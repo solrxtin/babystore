@@ -1,0 +1,184 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<style>
+    table {
+        border-collapse: collapse;
+        
+    }
+    tr{
+        font-family: "Bitstream Vera Sans Mono", monaco, "Courier New", Courier, monospace;
+        font-size: 14px;
+        font-weight: bold;
+        font-style: normal;
+        display: grid;
+        text-align: left;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        max-width: 100%;
+    }
+    td,
+    th {
+        font-size: 16px;
+        line-height: 16px;
+        border-bottom: 1px solid var(--hairline-color);
+        vertical-align: top;
+        padding: 8px;
+    }
+
+    th {
+        font-weight: 700;
+        text-align: left;
+    }
+
+    thead th,
+    tfoot td {
+        color: var(--body-quiet-color);
+        padding: 5px 10px;
+        font-size: 20px;
+        background: var(--body-bg);
+        border: none;
+        border-top: 1px solid var(--hairline-color);
+        border-bottom: 1px solid var(--hairline-color);
+    }
+
+    tfoot td {
+        border-bottom: none;
+        border-top: 1px solid var(--hairline-color);
+    }
+
+    thead th.required {
+        color: var(--body-loud-color);
+    }
+
+    tr.alt {
+        background: var(--darkened-bg);
+    }
+
+    tr:nth-child(odd),
+    .row-form-errors {
+        background: var(--body-bg);
+    }
+
+    tr:nth-child(even),
+    tr:nth-child(even) .errorlist,
+    tr:nth-child(odd)+.row-form-errors,
+    tr:nth-child(odd)+.row-form-errors .errorlist {
+        background: var(--darkened-bg);
+    }
+</style>
+
+
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{form}}<br/>
+        <input type="submit" value="Search"/>
+    </form>
+</div>
+<div class="results">
+    <table id="result_list">
+        <thead>
+            {% if sales %}
+            <tr>
+                <th scope="col" class="sortable column-item">
+                    <div class="text">Item</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-price">
+                    <div class="text">Price</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-quantity">   
+                    <div class="text">Quantity</a</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-time_sold sorted descending">
+    
+                    <div class="text">Time sold</div>
+                    <div class="clear"></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for sale in sales%}
+            <tr>
+                <th class="field-item nowrap" style="font-weight: 650;">{{sale.item|title}}</th>
+                <td class="field-price">{{sale.price}}</td>
+                <td class="field-quantity">{{sale.quantity}}</td>
+                <td class="field-time_sold nowrap">{{sale.time_sold}}</td>
+            </tr>
+            
+            {% endfor %}
+            <p> {{sales.count}} sales made in the last 24 hours</p>
+        </tbody>
+    </table>
+    <div>
+        Total revenue earned in the last 24 hours is, {{ sale }}
+    </div>
+    {% endif %}
+</div>
+{% if search_page %}
+<div class="results">
+    {% if queried_sales %}
+    <table id="result_list">
+        <thead>
+            <tr>
+                <th scope="col" class="sortable column-item">
+                    <div class="text">Item</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-price">
+                    <div class="text">Price</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-quantity">
+                    <div class="text">Quantity</a< /div>
+                        <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-time_sold sorted descending">
+
+                    <div class="text">Time sold</div>
+                    <div class="clear"></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for sale in queried_sales%}
+            <tr>
+                <th class="field-item nowrap" style="font-weight: 650;">{{sale.item|title}}</th>
+                <td class="field-price">{{sale.price}}</td>
+                <td class="field-quantity">{{sale.quantity}}</td>
+                <td class="field-time_sold nowrap">{{sale.time_sold}}</td>
+            </tr>
+
+            {% endfor %}
+    
+            <p> {{queried_sales.count}} sales made on this date</p>
+        </tbody>
+    </table>
+        <div>
+            Total revenue earned on this date is, {{ sale }}
+        </div>
+    {% endif %}
+</div>
+
+{% endif %}
+
+<div>
+    <h3><a href="{% url 'add_sales' %}">Add to sales</a></h3>
+</div>
+<div>
+    <h3><a href="">View all sales</a></h3>
+</div>
+<div>
+    <form action="">
+        <input type="button" value="Print" onclick="window.print()" />
+    </form>
+</div>
+
+{% else %}
+<p>You are not allowed here! </p>
+{% endif %}
+
+{% endblock content %}

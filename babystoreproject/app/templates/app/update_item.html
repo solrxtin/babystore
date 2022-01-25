@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated and request.user.is_superuser%}
+<div>
+    <form method="POST" action="">
+        {%csrf_token%}
+        {{ form.as_p }}
+        <input type="submit" name="submit" value="Update Item" />
+    </form>
+    <h3><a href="{{request.META.HTTP_REFERER}}">Go Back</a></h3>
+
+</div>
+{% else %}
+<p>You are not allowed here! </p>
+{% endif %}
+{% endblock %}

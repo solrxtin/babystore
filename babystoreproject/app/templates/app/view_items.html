@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <h1>Available Items in our Baby Store</h1>    
+</div>
+<form method="GET" action="{%url 'all_items' %}">
+    <input type="text" name='q' placeholder="Search Items..." />
+    <input type="submit" value="Search"/>
+
+</form>
+<div>
+    {% if filtered_items %}
+        {% for item in filtered_items %}
+            <h2><a href="{% url 'item' item.id %}">{{item.name|title}}</a></h2>
+            <h3><label>Price:</label> #{{item.price}}</h3>
+            <h3><label>Quantity Available:</label> {{item.quantity}}</h3>
+            <h3><label>Item's Department:</label> {{item.department}}</h3>
+            <hr/>
+        {% endfor %}
+        <h3><a href="{{request.META.HTTP_REFERER}}">Go Back</a></h3>
+    {% else %}
+        {% for item in items %}
+                <h2>{{item.name|title}}</h2>
+                <h3>{{item.price}}</h3>
+                <h3>{{item.quantity}}</h3>
+                <h3>{{item.department}}</h3>
+                <hr />
+        {% endfor %}
+       
+    {% endif %}
+    
+</div>
+
+
+
+{%endblock%}

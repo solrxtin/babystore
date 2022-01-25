@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .body{
+        background-color: rgb(65, 131, 131);
+
+    }
+    .item-container{
+        background-color: blanchedalmond;
+        font-size: medium;
+        font-style: normal;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        display: grid;
+        grid-template-columns: 0.60fr 0.60fr 0.60fr 0.60fr 0.60fr;
+        text-align: center;
+    }
+       .item-container-columns{
+        background-color: blanchedalmond;
+        font-size: medium;
+        font-style: normal;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 0.60fr  0.60fr 0.60fr 0.60fr 0.60fr;
+    }
+</style>
+<div class="item-container-columns">
+    <div>
+        <h2>Item's Name</h2>
+    </div>
+    <div>
+        <h2>Item's Brand</h2>
+    </div>
+    <div>
+        <h2>Item's Price</h2>
+    </div>
+    <div>
+        <h2>Quantity Available</h2>
+    </div>
+    <div>
+        <h2>Item's Department</h2>
+    </div>
+</div>
+<div class="item-container">
+    <div><h3>{{item.name|title}}</h3></div>
+    <div>{%if item.brand %}
+            <h3>{{item.brand}}</h3>
+        {% else %}
+            <h3>Not specified</h3>
+        {% endif %}
+    </div>
+    <div><h3>{{item.price}}</h3></div>
+    <div><h3>{{item.quantity}}</h3></div>
+    <div><h3>{{item.department}}</h3></div>
+</div>
+{%if user.is_superuser%}
+<h4><a href="/item/{{ item.id }}/update_item/">Update Item</a></h4>
+<h4><a href="/item/{{ item.id }}/delete_item/">Delete Item</a></h4>
+{% endif %}
+{% if user.is_superuser or user.is_staff%}
+<h4><a href="{% url 'update_sale' item.id %}">Record sales of this item</a></h4>
+{% endif %}
+<h4><a href="{% url 'item_cart' item.id %}">Add to Cart</a></h4>
+{%endblock%}

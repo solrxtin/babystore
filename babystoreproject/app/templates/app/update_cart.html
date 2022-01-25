@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="layout__body">
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+
+        <div class="form__group">
+            <label for="quantity">Quantity:</label>
+            {{form.quantity}}
+        </div>
+        <div class="form__action">
+            <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+            <button class="btn btn--main" type="submit">Update Quantity</button><br/>
+            <a href="{% url 'view_cart' %}">Go back</a>
+        </div>
+    </form>
+</div><br/><br/>
+<div>
+    <a href="{% url 'delete_cart' cart.id %}">Delete {{item_name|title}} from Cart</a>
+</div>
+
+
+{% endblock content %}

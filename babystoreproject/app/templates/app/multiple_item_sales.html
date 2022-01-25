@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form action="" method="get">
+    <label>How many sales do you want to record at a go?</label>
+    <input type="number" name="count"><input type="submit" value="Record Sales" />
+</form><br>
+
+<form action="" method="POST">
+    {% csrf_token%}
+    {{formset.management_form}}
+    {% for form in formset %}
+
+    {{form.as_table}}<br>
+
+    {% endfor%}
+</form>
+
+{% endblock content %}

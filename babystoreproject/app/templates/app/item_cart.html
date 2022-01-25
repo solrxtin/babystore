@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="layout__body">
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form__action">
+            <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+            <button class="btn btn--main" type="submit">Add to Cart</button>
+        </div>
+    </form>
+</div>
+<br /><br /><br />
+<a href="{% url 'view_cart' %}">View Cart</a><br />
+{% endblock content %}

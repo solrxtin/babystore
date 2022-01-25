@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Baby Store</title>
+    <style>
+        body{
+            font-size: medium;
+            font-style: normal;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .home-view {
+            display: grid;
+            grid-template-columns: 25% 75%;
+        }
+
+        .Home-items{
+            display: grid;
+            text-align: center;
+        }
+        a:hover{
+            color:darkslategrey;           
+        }
+        a:link{
+             text-decoration: none;
+        }
+        .home-departments{
+            font-size: medium;
+            font-style: normal;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            border-right: solid;
+        }
+        table {
+        border-collapse: collapse;
+
+    }
+
+    tr {
+        font-size: 14px;
+        font-weight: bold;
+        font-style: normal;
+        display: grid;
+        text-align: center;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        max-width: 100%;
+    }
+
+    td,
+    th {
+        font-size: 16px;
+        line-height: 16px;
+        border-bottom: 1px solid var(--hairline-color);
+        vertical-align: top;
+        padding: 20px;
+    }
+
+    th {
+        font-weight: 700;
+        text-align: center;
+    }
+
+    thead th,
+    tfoot td {
+        color: var(--body-quiet-color);
+        padding: 5px 10px;
+        font-size: 20px;
+        background: var(--body-bg);
+        border: none;
+        border-top: 1px solid var(--hairline-color);
+        border-bottom: 1px solid var(--hairline-color);
+    }
+
+    tfoot td {
+        border-bottom: none;
+        border-top: 1px solid var(--hairline-color);
+    }
+
+    thead th.required {
+        color: var(--body-loud-color);
+    }
+
+    tr.alt {
+        background: var(--darkened-bg);
+    }
+
+    tr:nth-child(odd),
+    .row-form-errors {
+        background: var(--body-bg);
+    }
+    tr:nth-child(even),
+    tr:nth-child(even) .errorlist,
+    tr:nth-child(odd)+.row-form-errors,
+    tr:nth-child(odd)+.row-form-errors .errorlist {
+        background: var(--darkened-bg);
+    }
+       
+    </style>
+</head>
+<body>
+{% extends 'main.html' %}
+
+{% block content %}
+  
+<div class='home-view'>
+    <div class="home-departments">
+        
+        <h1>Browse Departments</h1>
+        <div>
+            <form method="GET" action="{%url 'home' %}">
+                <input type="text" name='q' placeholder="Search Departments..." />
+                <input type="submit" value="Search"/>
+        
+            </form>
+        </div>
+        <div><h2><a href="{% url 'home' %}">All</a></h2></div>
+        {% for department in departments %}
+            <h2><a href="{% url 'department' department.id %}?q={{department.name}}">{{department.name}}</a></h2>
+        {%endfor%}
+        <hr/>
+        {% if user.is_superuser or user.is_staff%}
+        <div>
+            <h3><a href="{% url 'add_sales' %}">Add to sales</a></h3>
+        </div>
+        {% endif %}
+    </div>
+    <div class="Home-items">
+        <h1>Items Available in our Store</h1>
+        <table id="result_list">
+        {% if items %}
+        <div>
+            {% if item_count > 1 %}
+            <h4>{{item_count}} Items available in this departemnt </h4>
+            {% else %}
+            <h4>{{room_count}} Item available in this departemnt</h4>
+            {% endif %}
+        </div>
+        <thead style="font-weight: 800;">
+            <tr>
+                <th scope="col" class="sortable column-item">
+                    <div class="text">Name</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-price">
+                    <div class="text">Brand</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-quantity">
+                    <div class="text">Department</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-time_sold sorted descending">
+                    <div class="text">Price</div>
+                    <div class="clear"></div>
+                </th>
+                <th scope="col" class="sortable column-time_sold sorted descending">
+                    <div class="text">Quantity</div>
+                    <div class="clear"></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <th class="field-item nowrap" style="font-weight: 650;">
+                <a href="{% url 'item' item.id  %}">{{item.name|title}}</a></th>
+                <td class="field-price">
+                {% if item.brand %}
+                    {{item.brand}}
+                {% else %}
+                    -----
+                {% endif %}
+                </td>
+                <td class="field-quantity">{{item.department}}</td>
+                <td class="field-time_sold nowrap">{{item.price}}</td>
+                <td class="field-time_sold nowrap">{{item.quantity}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        <h3><a href="{% url 'all_items' %}">View All Items Available in our Store</a></h3>
+        {% else %}
+            No Item Available in this Department
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

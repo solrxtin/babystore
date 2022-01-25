@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div style="width: 100%;">
+    <h1 class='h1'><bold>{{department.name}}</bold> department</h1>
+    <hr/>
+</div>
+<div>
+    {%if items%}
+        {% for item in items %}
+            <h3>Item's name: {{item.name|title}}</h3>
+            {% if item.brand %}
+                <h3>Item's brand: {{item.brand}}</h3>
+            {% else %}
+                <h3>Item's brand: Not specified </h3>
+            {% endif %}
+            <h3>Price: {{item.price}}</h3>
+            <h3>Available quantity: {{item.quantity}}</h3>
+            <hr />
+        {%endfor%}
+    {%else%}
+        <h3 style="text-align: left;">No item available in this department</h3>
+    {% endif %}
+</div>
+<div>{%if user.is_superuser%}
+        <h4><a href="/department/{{ department.id }}/add_item/">Add Item to this Department</a></h4>
+    {% endif %}
+</div>
+
+{% endblock %}
