@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+
+from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Handling Key Import Errors
 def get_env_variable(var_name):
@@ -26,21 +30,19 @@ def get_env_variable(var_name):
 # Get ENV VARIABLES key
 ENV_ROLE = get_env_variable('ENV_ROLE')
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY
 
+SECRET_KEY = get_env_variable('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-if ENV_ROLE == 'development':
-    DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
+DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,10 +55,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'crispy_forms',
+    #'crispy_forms',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+#CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

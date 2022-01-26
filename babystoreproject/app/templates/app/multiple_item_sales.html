@@ -1,8 +1,8 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<form action="" method="get">
-    <label>How many sales do you want to record at a go?</label>
+<form action="">
+    <label>How many sales of {{item.name}} do you want to record at a go?</label>
     <input type="number" name="count"><input type="submit" value="Record Sales" />
 </form><br>
 
@@ -11,9 +11,10 @@
     {{formset.management_form}}
     {% for form in formset %}
 
-    {{form.as_table}}<br>
+        {{form.as_table}}<br/>
 
     {% endfor%}
+    <input type="submit" value="Record Sales"/>
 </form>
 
 {% endblock content %}

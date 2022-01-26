@@ -32,12 +32,6 @@ class NewSaleForm(forms.ModelForm):
         exclude = ['time_sold']
 
 
-class MultipleSaleForm(forms.ModelForm):
-    class Meta:
-        model = Sale
-        exclude = ['item', 'time_sold']
-
-
 #print(obj.__dict__())
 
 

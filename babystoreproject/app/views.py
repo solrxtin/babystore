@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import ItemFormCRUD, SaleForm, NewSaleForm, SearchSaleForm, UpdateCartForm, MultipleSaleForm
+from .forms import ItemFormCRUD, SaleForm, NewSaleForm, SearchSaleForm, UpdateCartForm
 from django.contrib import messages
 from django.db.models import Q
-from datetime import  datetime, time, timedelta 
+from datetime import  datetime, timedelta 
 from django.forms import modelformset_factory, formset_factory
 
 
@@ -155,7 +155,7 @@ def view_sales(request):
             total_sale = sum(list_revenues)
             context = {"queried_sales": queried_sales, "search_page": page, "sale": total_sale, 'form':search_form} #, "sales": queried_sales,}
             return render(request, 'app/view_sales.html', context)
-   
+
         daily_sales = Sale.objects.filter(Q(time_sold=today)|Q(time_sold__gt=yesterday))
         list_revenues = []
         for sale in daily_sales:
@@ -166,6 +166,12 @@ def view_sales(request):
     else:
         return redirect('home')
     return render(request, 'app/view_sales.html', context)
+
+def view_all_sales(request):
+    if request.user.is_superuser or request.user.is_staff:
+        all_sales = Sale.objects.all()
+        context = {"sales": all_sales}
+        return render(request, 'app/view_all_sales.html', context)
 
 
 def add_sales(request):
@@ -214,7 +220,7 @@ def add_multiple_sales(request):
             count = int(count)
         # formset_factory do not interact with the model
         items = Item.objects.all()
-        SalesFormSet = formset_factory(MultipleSaleForm, extra=count)
+        SalesFormSet = formset_factory(SaleForm, extra=count)
         multiple_sale_formset = SalesFormSet()
         context = {"formset": multiple_sale_formset, "sales_formset":SalesFormSet, "items": items}
         return render(request, 'app/multiple_sales.html', context )
@@ -259,7 +265,8 @@ def item_sale(request, pk):
     return render(request, 'app/item_sale.html', context)
 
 
-def update_multiple_sales(request, pk):
+def multiple_item_sales(request, pk):
+    SalesFormSet = modelformset_factory(Sale, fields=('item', 'price', 'quantity'))
     item = Item.objects.get(id=pk)
     if request.method == 'GET':
         count = request.GET.get('count')
@@ -268,14 +275,17 @@ def update_multiple_sales(request, pk):
         else:
             count = int(count)
         # formset_factory do not interact with the model
-        data = {"item":item}
-        form = NewSaleForm(data)
-        SalesFormSet = formset_factory(form, extra=count)
+        SalesFormSet = formset_factory(NewSaleForm, extra=count)
         multiple_sale_formset = SalesFormSet()
-        context = {"formset": multiple_sale_formset, "sales_formset":SalesFormSet}
+        context = {"formset": multiple_sale_formset, "sales_formset":SalesFormSet, "item": item}
         return render(request, 'app/multiple_item_sales.html', context )
+    else:
+        formset = SalesFormSet(request.POST)
+        if formset.is_valid():
+            instances = formset.save(commit=False)
 
 
+@login_required(login_url='login')
 def add_to_cart(request):
     form = SaleForm()
     items = Item.objects.all()
@@ -304,7 +314,7 @@ def check_item_quantity(item, quantity):
         return False
 
 
-
+@login_required(login_url='login')
 def add_item_to_cart(request, pk):
     item = Item.objects.get(id=pk)
     form = NewSaleForm(initial={"item": item.name})
@@ -326,6 +336,7 @@ def add_item_to_cart(request, pk):
     return render(request, 'app/item_cart.html', context)
 
 
+@login_required(login_url='login')
 def view_cart(request):
     carts = Cart.objects.filter(user=request.user)
     cost = total_cost(carts)
@@ -333,6 +344,7 @@ def view_cart(request):
     return render(request, 'app/view_cart.html', context)
 
 
+@login_required(login_url='login')
 def update_cart(request, pk):
     cart_obj = Cart.objects.get(id=pk)
     if request.user == cart_obj.user:
@@ -352,6 +364,7 @@ def update_cart(request, pk):
     return render(request, 'app/update_cart.html', context)
 
 
+@login_required(login_url='login')
 def delete_cart(request, pk):
     cart_obj = Cart.objects.get(id=pk)
     print(cart_obj)
@@ -362,6 +375,7 @@ def delete_cart(request, pk):
     return render(request, 'app/delete_cart.html', context)
 
 
+@login_required(login_url='login')
 def checkout(request):
     cart_objs = Cart.objects.filter(user=request.user)
     cart_list = []
@@ -392,19 +406,9 @@ def checkout(request):
     context = {"carts": cart_objs, "cost": total_cost}
     return render(request, 'app/checkout_page.html', context)
 
-
+@login_required(login_url='login')
 def delete_user_cart(obj):
     obj.delete()
-
-
-def print_receipt(request):
-    cart_objects = Cart.objects.filter(user=request.user)
-    cost = total_cost(cart_objects)
-    if request.method=='POST':
-            context = {"carts": cart_objects, "total": cost}
-            return render(request, 'app/print_receipt.html', context)
-    context={"carts": cart_objects}
-    return render(request, 'app/print_receipt.html')
     
 
 def total_cost(objs):

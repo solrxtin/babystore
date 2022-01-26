@@ -9,16 +9,7 @@
     {% csrf_token%}
     {{formset.management_form}}
     {% for form in formset %}
-            <label for="item">Item:</label>
-            <input required type="text" value="{{sale.item.name}}" name="item" id="item_sale" list="topic-list" />
-            <datalist id="topic-list">
-                <select id="item_sale">
-                    {% for item in items %}
-                    <option value="{{item.name}}">{{item.name}}</option>
-                    {% endfor %}
-                </select>
-            </datalist>
-            {{form.as_table}}
+        {{form.as_table}}<br/>
     {% endfor%}
     <h3><input  type="submit" value="Add Sales"/></h3>
     <h3><a href="{% url 'view_sales' %}">View Sales</a></h3>

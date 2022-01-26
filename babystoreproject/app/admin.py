@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Item, Batch, Sale, Cart, Receipt
+from .models import Department, Item, Batch, Sale, Cart
 
 
 # Register your models here.
@@ -25,6 +25,3 @@ class CartAdmin(admin.ModelAdmin):
 admin.site.register(Cart, CartAdmin)
 
 
-class ReceiptAdmin(admin.ModelAdmin):
-    list_display = ['cart', 'user', 'created_at']
-admin.site.register(Receipt, ReceiptAdmin)

@@ -69,13 +69,3 @@ class Cart(models.Model):
         return str(self.id)
 
 
-class Receipt(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['created_at']
-
-    def __str__(self):
-        return str(self.cart)
