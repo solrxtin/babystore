@@ -12,7 +12,7 @@
         font-style: normal;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         display: grid;
-        grid-template-columns: 0.60fr 0.60fr 0.60fr 0.60fr 0.60fr;
+        grid-template-columns: 0.50fr 0.50fr 0.50fr 0.50fr 0.50fr 0.50fr;
         text-align: center;
     }
        .item-container-columns{
@@ -22,25 +22,30 @@
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         text-align: center;
         display: grid;
-        grid-template-columns: 0.60fr  0.60fr 0.60fr 0.60fr 0.60fr;
+        grid-template-columns: 0.50fr  0.50fr 0.50fr 0.50fr 0.50fr 0.50fr;
     }
 </style>
 <div class="item-container-columns">
     <div>
-        <h2>Item's Name</h2>
+        <h2>Name</h2>
     </div>
     <div>
-        <h2>Item's Brand</h2>
+        <h2>Brand</h2>
     </div>
     <div>
-        <h2>Item's Price</h2>
+        <h2>Price</h2>
     </div>
     <div>
         <h2>Quantity Available</h2>
     </div>
     <div>
-        <h2>Item's Department</h2>
+        <h2>Department</h2>
     </div>
+    {% if request.user.is_staff or request.user.is_superuser %}
+        <div>
+            <h2>Updated</h2>
+        </div>
+    {% endif %}
 </div>
 <div class="item-container">
     <div><h3>{{item.name|title}}</h3></div>
@@ -53,6 +58,13 @@
     <div><h3>{{item.price}}</h3></div>
     <div><h3>{{item.quantity}}</h3></div>
     <div><h3>{{item.department}}</h3></div>
+    {% if request.user.is_staff or request.user.is_superuser %}
+        {% if not item.updated == None%}
+        <div><h3>{{item.updated}}</h3></div>
+        {% else %}
+            <h3>No update</h3>
+        {% endif %}
+    {% endif %}
 </div>
 {%if user.is_superuser%}
 <h4><a href="/item/{{ item.id }}/update_item/">Update Item</a></h4>

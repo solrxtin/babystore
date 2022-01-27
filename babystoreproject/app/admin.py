@@ -7,7 +7,7 @@ admin.site.register(Department)
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'department', 'price', 'quantity')
+    list_display = ('name', 'department', 'price', 'quantity', 'time_added')
 admin.site.register(Item, ItemAdmin)
 
 class BatchAdmin(admin.ModelAdmin):

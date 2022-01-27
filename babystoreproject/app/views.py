@@ -65,14 +65,21 @@ def add_item(request, pk):
 
 def update_item(request, pk):  
     item = Item.objects.get(id=pk)
+    item_quantity = item.quantity
     form = ItemFormCRUD(instance=item)
     if request.method == 'POST':
         form = ItemFormCRUD(request.POST, instance=item)
 
         if form.is_valid():
-            item = form.save(commit=False)
-            item.save()
-            return render(request, 'app/item.html', {"item": item})
+            item_instance = form.save(commit=False)
+            item_instance.updated = datetime.now()
+            print(item_instance.updated)
+            if not item_instance.quantity < item_quantity:
+                item_instance.save()
+                messages.success(request, "Successfully updated item")
+            else:
+                return HttpResponse("You are not allowed to reduce item's quantity")
+            return render(request, 'app/item.html', {"item": item_instance})
         else:
             print(form.errors)
 

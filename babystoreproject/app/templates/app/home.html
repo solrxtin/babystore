@@ -40,7 +40,7 @@
         font-style: normal;
         display: grid;
         text-align: center;
-        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-template-columns: 16.5% 16.5% 16.5% 16.5% 16.5% 16.5%;
         max-width: 100%;
     }
 
@@ -139,22 +139,28 @@
                     <div class="text">Name</div>
                     <div class="clear"></div>
                 </th>
-                <th scope="col" class="sortable column-price">
+                <th scope="col" class="sortable column-brand">
                     <div class="text">Brand</div>
                     <div class="clear"></div>
                 </th>
-                <th scope="col" class="sortable column-quantity">
+                <th scope="col" class="sortable column-department">
                     <div class="text">Department</div>
                     <div class="clear"></div>
                 </th>
-                <th scope="col" class="sortable column-time_sold sorted descending">
+                <th scope="col" class="sortable column-price sorted descending">
                     <div class="text">Price</div>
                     <div class="clear"></div>
                 </th>
-                <th scope="col" class="sortable column-time_sold sorted descending">
+                <th scope="col" class="sortable column-quantity sorted descending">
                     <div class="text">Quantity</div>
                     <div class="clear"></div>
                 </th>
+                {% if request.user.is_staff or request.user.is_superuser%}
+                <th scope="col" class="sortable column-quantity sorted descending">
+                    <div class="text">Date</div>
+                    <div class="clear"></div>
+                </th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -162,16 +168,19 @@
             <tr>
                 <th class="field-item nowrap" style="font-weight: 650;">
                 <a href="{% url 'item' item.id  %}">{{item.name|title}}</a></th>
-                <td class="field-price">
+                <td class="field-brand">
                 {% if item.brand %}
                     {{item.brand}}
                 {% else %}
                     -----
                 {% endif %}
                 </td>
-                <td class="field-quantity">{{item.department}}</td>
-                <td class="field-time_sold nowrap">{{item.price}}</td>
-                <td class="field-time_sold nowrap">{{item.quantity}}</td>
+                <td class="field-department">{{item.department}}</td>
+                <td class="field-price">{{item.price}}</td>
+                <td class="field-quantity">{{item.quantity}}</td>
+                {% if request.user.is_staff or request.user.is_superuser%}
+                    <td class="field-date">{{item.time_added}}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

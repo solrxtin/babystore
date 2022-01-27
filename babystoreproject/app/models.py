@@ -19,6 +19,8 @@ class Item(models.Model):
     price = models.IntegerField(null=False)
     dozen_price = models.IntegerField(blank=True, null=True)
     quantity = models.IntegerField(default=0)
+    time_added = models.DateTimeField(default=datetime.now, blank=True)
+    updated = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ['-quantity', '-price']

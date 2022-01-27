@@ -15,7 +15,7 @@ class ItemFormCRUD(forms.ModelForm):
 
     class Meta:
         model = Item
-        exclude = ('department',)
+        exclude = ('department', 'time_added', 'updated')
 
 
 class SaleForm(forms.ModelForm):
